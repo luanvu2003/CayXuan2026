@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hội Xuân 2026 - Fix Hiển Thị</title>
+    <title>Hội Xuân 2026</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Great+Vibes&display=swap"
         rel="stylesheet">
@@ -730,6 +730,92 @@
             .branch-decor,
             .bg-horse {
                 display: none;
+            }
+        }
+
+        /* =============================== */
+        /* ===== LANDSCAPE MOBILE FIX ==== */
+        /* =============================== */
+
+        @media (max-width: 900px) and (orientation: landscape) {
+
+            body {
+                height: auto;
+                overflow-y: auto;
+            }
+
+            /* Cho layout quay lại dạng ngang */
+            .center-stage {
+                flex-direction: row;
+                gap: 15px;
+                padding: 10px;
+            }
+
+            :root {
+                --frame-w: 100px;
+                --frame-h: 60px;
+                --center-w: 220px;
+                --center-h: 150px;
+            }
+
+            .slider-wrapper {
+                height: 90px;
+            }
+
+            .track {
+                gap: 20px;
+                margin-bottom: 15px;
+            }
+
+            /* Thu nhỏ chữ cực mạnh khi landscape */
+            .text-left .l1 {
+                font-size: 1.6rem;
+                padding: 0;
+            }
+
+            .text-left .l2 {
+                font-size: 2rem;
+                padding: 0;
+            }
+
+            .text-left .l3 {
+                font-size: 2.3rem;
+                padding: 0;
+            }
+
+            .text-right .l1 {
+                font-size: 1.2rem;
+                padding: 0;
+            }
+
+            .text-right .l2 {
+                font-size: 1.4rem;
+                padding: 0;
+            }
+
+            .text-right .l3 {
+                font-size: 1.6rem;
+                padding: 0;
+            }
+
+            .grand-frame {
+                width: var(--center-w);
+                height: var(--center-h);
+            }
+
+            /* Ẩn bớt hiệu ứng nặng */
+            .corner-decor,
+            .branch-decor,
+            .bg-horse {
+                display: none;
+            }
+
+            /* Music panel gọn lại */
+            .music-panel {
+                width: 180px;
+                padding: 8px;
+                bottom: 5px;
+                right: 5px;
             }
         }
     </style>
