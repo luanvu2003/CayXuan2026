@@ -3,13 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hội Xuân 2026 - Fix Hiển Thị</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Hội Xuân 2026 - Mobile Responsive</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CẤU HÌNH --- */
+        /* --- CẤU HÌNH GỐC (DESKTOP) --- */
         :root {
             --bg-deep: #7e0606;
             --bg-bright: #e11515;
@@ -49,7 +48,7 @@
 
         /* --- SLIDER --- */
         .slider-wrapper { position: relative; width: 100%; height: 180px; flex-shrink: 0; display: flex; align-items: center; background: rgba(0, 0, 0, 0.3); border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); overflow: hidden; z-index: 10; }
-        .track { display: flex; gap: 60px; width: max-content; padding: 0 30px; margin-bottom: 30px;}
+        .track { display: flex; gap: 60px; width: max-content; padding: 0 30px; }
         .top-run .track { animation: slideLeft var(--speed) linear infinite; }
         .bot-run .track { animation: slideRight var(--speed) linear infinite; }
         .slider-wrapper:hover .track { animation-play-state: paused; }
@@ -61,17 +60,11 @@
         .jade-frame img { width: 100%; height: 100%; object-fit: cover; border: 1px solid rgba(255, 255, 0, 0.5); }
         .name-label { position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%); width: 100%; background: linear-gradient(to right, #b8860b, #ffd700, #b8860b); color: #2c0000; text-align: center; font-size: 16px; font-weight: bold; padding: 6px 0; text-transform: uppercase; border-radius: 4px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); border: 1px solid #fff; }
 
-        /* --- [FIXED] CENTER STAGE --- */
+        /* --- CENTER STAGE --- */
         .center-stage {
-            flex-grow: 1; 
-            width: 100%; /* Đảm bảo rộng 100% */
-            display: flex; 
-            flex-direction: row;
-            justify-content: center; 
-            align-items: center; 
-            position: relative; 
-            z-index: 50; 
-            overflow: visible; /* Cho phép chữ tràn ra ngoài box nếu cần */
+            flex-grow: 1; width: 100%; display: flex; flex-direction: row;
+            justify-content: center; align-items: center; position: relative; z-index: 50; 
+            overflow: visible; gap: 10px;
         }
 
         .grand-frame {
@@ -84,70 +77,23 @@
         .grand-inner { width: 100%; height: 100%; background: #000; border: 3px solid #FFFACD; border-radius: 6px; overflow: hidden; }
         .grand-inner img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- [FIXED] TEXT BOX & STYLE --- */
-        .text-box { 
-            flex: 1; /* Chiếm không gian 2 bên */
-            display: flex; flex-direction: column; justify-content: center; 
-            height: 100%; /* Cao bằng khu vực giữa */
-            z-index: 100; /* Nổi lên trên cùng */
-            position: relative;
-        }
-        
-        /* Cấu hình chung cho dòng chữ */
-        .text-line { 
-            display: block; 
-            width: 100%; 
-            position: relative;
-            white-space: nowrap; /* Không xuống dòng */
-        }
+        /* --- TEXT BOX & STYLE --- */
+        .text-box { flex: 1; display: flex; flex-direction: column; justify-content: center; min-width: 350px; z-index: 55; position: relative; }
+        .text-line { display: block; width: 100%; transition: all 0.3s; position: relative; white-space: nowrap; }
 
-        /* --- BÊN TRÁI --- */
-        .text-left { 
-            align-items: flex-end; /* Căn lề phải của box */
-            text-align: right; 
-            padding-right: 20px; /* Cách ảnh một chút */
-        }
-        
-        .main-title span {
-            font-family: 'Berkshire Swash', cursive;
-            line-height: 1.2;
-            /* FIX MÀU: Đặt màu vàng cứng trước, rồi mới phủ gradient */
-            color: #FFD700; 
-            background: linear-gradient(to right, #cfc09f, #ffecb3, #c49a05, #cfc09f);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-            filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.8));
-            display: block;
-        }
+        /* DESKTOP STYLES */
+        .text-left { text-align: right; transform: rotate(8deg); }
+        .text-left .l1 { margin-right: 80px; font-size: 4rem; margin-bottom: 5px; } 
+        .text-left .l2 { margin-right: 40px; font-size: 5rem; color: #FFFACD; margin-bottom: 0px; } 
+        .text-left .l3 { margin-right: 0px; font-size: 6rem; line-height: 1; } 
 
-        /* Điều chỉnh bậc thang bằng padding-right */
-        .text-left .l1 { padding-right: 200px; font-size: 3.5rem; } /* Xa */
-        .text-left .l2 { padding-right: 50px; font-size: 4.5rem; padding-top: 20px; } /* Gần */
-        .text-left .l3 { padding-right: 0px; font-size: 5.5rem; } /* Sát */
+        .text-right { text-align: left; transform: rotate(-8deg); }
+        .text-right .l1 { margin-left: 80px; font-size: 2.8rem; margin-bottom: 5px; }
+        .text-right .l2 { margin-left: 40px; font-size: 3.2rem; margin-bottom: 5px; }
+        .text-right .l3 { margin-left: 0px; font-size: 3.5rem; }
 
-        /* --- BÊN PHẢI --- */
-        .text-right { 
-            align-items: flex-start; /* Căn lề trái của box */
-            text-align: left; 
-            padding-left: 20px; /* Cách ảnh một chút */
-        }
-
-        .sub-title span {
-            font-family: 'Great Vibes', cursive;
-            line-height: 1.3;
-            color: #fff;
-            text-shadow: 0 0 10px #FF4500, 0 0 20px #FF0000;
-            animation: glowPulse 2s infinite alternate;
-            display: block;
-        }
-
-        /* Điều chỉnh bậc thang bằng padding-left */
-        .text-right .l1 { padding-left: 180px; font-size: 2.8rem; padding-bottom: 40px;} /* Xa */
-        .text-right .l2 { padding-left: 90px; font-size: 3.2rem; padding-bottom: 20px; } /* Gần */
-        .text-right .l3 { padding-left: 0px; font-size: 3.2rem; padding-top: 20px;} /* Sát */
-
+        .main-title { font-family: 'Berkshire Swash', cursive; line-height: 1.1; color: var(--gold); background: linear-gradient(to right, #cfc09f, #ffecb3, #c49a05, #cfc09f); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.6)); }
+        .sub-title { font-family: 'Great Vibes', cursive; line-height: 1.2; color: #fff; text-shadow: 0 0 10px #FF4500, 0 0 20px #FF0000; animation: glowPulse 2s infinite alternate; }
 
         /* --- MUSIC PANEL --- */
         .music-panel { position: fixed; bottom: 20px; right: 20px; width: 250px; background: rgba(40, 0, 0, 0.95); border: 2px solid var(--gold); border-radius: 12px; padding: 15px; z-index: 999; box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; gap: 6px; transition: all 0.3s; }
@@ -172,7 +118,87 @@
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
         #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--gold); cursor: pointer; }
-        #snow-zone {z-index: 1;}
+
+        /* =========================================
+           MOBILE RESPONSIVE (MỚI THÊM)
+           ========================================= */
+        @media screen and (max-width: 768px) {
+            :root {
+                /* Thu nhỏ slider và ảnh trung tâm */
+                --frame-w: 130px; 
+                --frame-h: 70px; 
+                --center-w: 280px;
+                --center-h: 180px;
+            }
+
+            /* Chuyển bố cục giữa thành dọc (Cột) */
+            .center-stage {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            /* Thu nhỏ chiều cao slider để không chiếm hết màn hình */
+            .slider-wrapper {
+                height: 90px;
+            }
+
+            /* --- CHỈNH LẠI CHỮ TRÊN MOBILE --- */
+            .text-box {
+                min-width: unset;
+                width: 100%;
+                align-items: center; /* Căn giữa trục ngang */
+                padding: 5px 0;
+            }
+
+            /* Chữ Hội Xuân 2026 (Trên cùng) */
+            .text-left {
+                order: 1; /* Hiển thị đầu tiên */
+                text-align: center;
+                transform: rotate(-3deg); /* Nghiêng nhẹ hơn */
+                padding: 0;
+            }
+            /* Giảm kích thước và khoảng cách bậc thang */
+            .text-left .l1 { margin-right: 0; padding-right: 60px; font-size: 2.5rem; }
+            .text-left .l2 { margin-right: 0; padding-right: 0px; font-size: 3rem; }
+            .text-left .l3 { margin-right: 0; padding-left: 60px; font-size: 3.5rem; }
+
+            /* Ảnh Ông Bà (Giữa) */
+            .grand-frame {
+                order: 2; /* Hiển thị thứ hai */
+                margin: 5px 0;
+            }
+
+            /* Chữ Gia Đình (Dưới cùng) */
+            .text-right {
+                order: 3; /* Hiển thị cuối cùng */
+                text-align: center;
+                transform: rotate(3deg); /* Nghiêng nhẹ ngược lại */
+                padding: 0;
+            }
+            .text-right .l1 { margin-left: 0; padding-left: 60px; font-size: 1.8rem; }
+            .text-right .l2 { margin-left: 0; padding-left: 0px; font-size: 2.2rem; }
+            .text-right .l3 { margin-left: 0; padding-right: 60px; font-size: 2.5rem; }
+
+            /* Ẩn bớt trang trí rườm rà nếu che mất nội dung */
+            .branch-decor { width: 150px; height: 100px; opacity: 0.6; }
+            .corner-decor { width: 80px; height: 80px; }
+            
+            /* Thu nhỏ bảng nhạc */
+            .music-panel {
+                width: 40px; height: 40px; 
+                border-radius: 50%; 
+                overflow: hidden;
+                padding: 0;
+                justify-content: center; 
+                align-items: center;
+                bottom: 80px; /* Đẩy lên cao hơn chút */
+            }
+            /* Mặc định thu nhỏ trên mobile để không che slider */
+            .music-panel:not(.minimized) {
+                width: 220px; height: auto; border-radius: 12px; padding: 10px;
+            }
+            .music-panel.minimized::after { content: '🎵'; font-size: 20px; }
+        }
     </style>
 </head>
 
@@ -225,19 +251,19 @@
 
     <div class="center-stage">
         <div class="text-box text-left main-title">
-            <span class="l1">HỘI</span>
-            <span class="l2">XUÂN</span>
-            <span class="l3">2026</span>
+            <span class="text-line l1">HỘI</span>
+            <span class="text-line l2">XUÂN</span>
+            <span class="text-line l3">2026</span>
         </div>
         
         <div class="grand-frame">
             <div class="grand-inner"><img src="./Family/OngBa.jpg" alt="Ông Bà"></div>
         </div>
         
-        <div class="text-box text-right main-title">
-            <span class="l1">Gia Đình</span>
-            <span class="l2">Con Cháu</span>
-            <span class="l3">Ông Bà Vinh</span>
+        <div class="text-box text-right sub-title">
+            <span class="text-line l1">Gia Đình</span>
+            <span class="text-line l2">Con Cháu</span>
+            <span class="text-line l3">Ông Bà Vinh</span>
         </div>
     </div>
 
@@ -288,6 +314,7 @@
         const playlist = [
             { title: "Một Năm Mới Bình An", src: "./Nhac/Một Năm Mới Bình An.mp3" },
             { title: "Ngày Xuân Long Phụng Sum Vầy", src: "./Nhac/Ngày Xuân Long Phụng Sum Vầy.mp3" },
+            { title: "Tết Đỉnh Nóc", src: "./Nhac/Tết Đỉnh Nóc.mp3" },
             { title: "Tết Đong Đầy 3", src: "./Nhac/Tết Đong Đầy 3.mp3" },
             { title: "Tết Đong Đầy", src: "./Nhac/Tết Đong Đầy.mp3" },
             { title: "Tết Này Con Sẽ Về", src: "./Nhac/Tết Này Con Sẽ Về.mp3" },
