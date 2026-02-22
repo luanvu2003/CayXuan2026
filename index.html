@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hội Xuân 2026 - Fix Hiển Thị</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CẤU HÌNH --- */
+        :root {
+            --bg-deep: #7e0606;
+            --bg-bright: #e11515;
+            --gold: #FFD700;
+            --frame-w: 200px; 
+            --frame-h: 100px; 
+            --center-w: 500px;
+            --center-h: 300px;
+            --speed: 65s; 
+        }
+
+        body {
+            margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
+            background: radial-gradient(circle at center, var(--bg-bright), var(--bg-deep));
+            font-family: 'Times New Roman', serif;
+            display: flex; flex-direction: column; justify-content: space-between;
+            user-select: none;
+            position: relative;
+        }
+
+        /* --- BACKGROUND --- */
+        .bg-horse { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: auto; opacity: 0.15; z-index: 1; pointer-events: none; filter: drop-shadow(0 0 20px var(--gold)); }
+        .bg-pattern { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: repeating-linear-gradient(45deg, rgba(255,215,0,0.03) 0, rgba(255,215,0,0.03) 2px, transparent 2px, transparent 10px); z-index: 0; pointer-events: none; }
+        .light-fx { position: absolute; width: 100%; height: 100%; pointer-events: none; z-index: 2; background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.15), transparent 70%); mix-blend-mode: screen; }
+        
+        /* --- DECOR --- */
+        .corner-decor { position: absolute; width: 120px; height: 120px; z-index: 5; pointer-events: none; background: radial-gradient(circle at top left, transparent 60%, var(--gold) 62%, transparent 65%); border: 2px solid rgba(255,215,0,0.3); border-radius: 50%; }
+        .c-tl { top: -60px; left: -60px; } .c-tr { top: -60px; right: -60px; transform: rotate(90deg); } .c-bl { bottom: -60px; left: -60px; transform: rotate(-90deg); } .c-br { bottom: -60px; right: -60px; transform: rotate(180deg); }
+        .branch-decor { position: absolute; top: 0; width: 300px; height: 200px; z-index: 5; pointer-events: none; background-size: contain; background-repeat: no-repeat; opacity: 0.8; }
+        .branch-left { left: -50px; transform: rotate(15deg); } .branch-right { right: -50px; transform: scaleX(-1) rotate(15deg); }
+        .blossom { position: absolute; width: 10px; height: 10px; background: #FFD700; border-radius: 50%; box-shadow: 20px 40px 0 5px #FFD700, 50px 80px 0 3px #FFA500, 90px 30px 0 4px #FFD700, 120px 60px 0 2px #FFA500; filter: drop-shadow(0 0 5px var(--gold)); }
+        .lantern { position: absolute; top: -10px; z-index: 30; display: flex; flex-direction: column; align-items: center; animation: swingLantern 3s infinite ease-in-out alternate; transform-origin: top center; }
+        .l-left { left: 15%; } .l-right { right: 15%; animation-delay: 1s; }
+        .lantern-body { width: 50px; height: 70px; background: radial-gradient(#ff5555, #990000); border-radius: 15px; border: 2px solid var(--gold); box-shadow: 0 0 15px rgba(255, 69, 0, 0.8); display: flex; justify-content: center; align-items: center; color: var(--gold); font-weight: bold; font-size: 18px; }
+        .lantern-tassel { width: 4px; height: 30px; background: var(--gold); margin-top: -2px; }
+        .falling-item { position: absolute; top: -20px; color: rgba(255, 215, 0, 0.6); font-size: 20px; animation: fall linear forwards; z-index: 999; pointer-events: none; }
+
+        /* --- SLIDER --- */
+        .slider-wrapper { position: relative; width: 100%; height: 180px; flex-shrink: 0; display: flex; align-items: center; background: rgba(0, 0, 0, 0.3); border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); overflow: hidden; z-index: 10; }
+        .track { display: flex; gap: 60px; width: max-content; padding: 0 30px; margin-bottom: 30px;}
+        .top-run .track { animation: slideLeft var(--speed) linear infinite; }
+        .bot-run .track { animation: slideRight var(--speed) linear infinite; }
+        .slider-wrapper:hover .track { animation-play-state: paused; }
+        @keyframes slideLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-2860px); } }
+        @keyframes slideRight { 0% { transform: translateX(-2860px); } 100% { transform: translateX(0); } }
+
+        .jade-frame { position: relative; width: var(--frame-w); height: var(--frame-h); background: linear-gradient(135deg, #004d3a, #007f62); border: 8px solid var(--gold); border-image: linear-gradient(45deg, #d4af37, #ffd700, #d4af37) 1; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); padding: 4px; flex-shrink: 0; transition: transform 0.3s; }
+        .jade-frame:hover { transform: scale(1.1); z-index: 100; box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); border-color: #fff; }
+        .jade-frame img { width: 100%; height: 100%; object-fit: cover; border: 1px solid rgba(255, 255, 0, 0.5); }
+        .name-label { position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%); width: 100%; background: linear-gradient(to right, #b8860b, #ffd700, #b8860b); color: #2c0000; text-align: center; font-size: 16px; font-weight: bold; padding: 6px 0; text-transform: uppercase; border-radius: 4px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); border: 1px solid #fff; }
+
+        /* --- [FIXED] CENTER STAGE --- */
+        .center-stage {
+            flex-grow: 1; 
+            width: 100%; /* Đảm bảo rộng 100% */
+            display: flex; 
+            flex-direction: row;
+            justify-content: center; 
+            align-items: center; 
+            position: relative; 
+            z-index: 50; 
+            overflow: visible; /* Cho phép chữ tràn ra ngoài box nếu cần */
+        }
+
+        .grand-frame {
+            position: relative; width: var(--center-w); height: var(--center-h); padding: 10px;
+            background: linear-gradient(110deg, #b8860b, #FFD700, #FFFACD, #FFD700, #b8860b);
+            background-size: 200% auto; border-radius: 10px; flex-shrink: 0;
+            box-shadow: 0 0 100px rgba(255, 215, 0, 0.6); animation: goldFlow 4s linear infinite;
+            z-index: 60;
+        }
+        .grand-inner { width: 100%; height: 100%; background: #000; border: 3px solid #FFFACD; border-radius: 6px; overflow: hidden; }
+        .grand-inner img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- [FIXED] TEXT BOX & STYLE --- */
+        .text-box { 
+            flex: 1; /* Chiếm không gian 2 bên */
+            display: flex; flex-direction: column; justify-content: center; 
+            height: 100%; /* Cao bằng khu vực giữa */
+            z-index: 100; /* Nổi lên trên cùng */
+            position: relative;
+        }
+        
+        /* Cấu hình chung cho dòng chữ */
+        .text-line { 
+            display: block; 
+            width: 100%; 
+            position: relative;
+            white-space: nowrap; /* Không xuống dòng */
+        }
+
+        /* --- BÊN TRÁI --- */
+        .text-left { 
+            align-items: flex-end; /* Căn lề phải của box */
+            text-align: right; 
+            padding-right: 20px; /* Cách ảnh một chút */
+        }
+        
+        .main-title span {
+            font-family: 'Berkshire Swash', cursive;
+            line-height: 1.2;
+            /* FIX MÀU: Đặt màu vàng cứng trước, rồi mới phủ gradient */
+            color: #FFD700; 
+            background: linear-gradient(to right, #cfc09f, #ffecb3, #c49a05, #cfc09f);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.8));
+            display: block;
+        }
+
+        /* Điều chỉnh bậc thang bằng padding-right */
+        .text-left .l1 { padding-right: 200px; font-size: 3.5rem; } /* Xa */
+        .text-left .l2 { padding-right: 50px; font-size: 4.5rem; padding-top: 20px; } /* Gần */
+        .text-left .l3 { padding-right: 0px; font-size: 5.5rem; } /* Sát */
+
+        /* --- BÊN PHẢI --- */
+        .text-right { 
+            align-items: flex-start; /* Căn lề trái của box */
+            text-align: left; 
+            padding-left: 20px; /* Cách ảnh một chút */
+        }
+
+        .sub-title span {
+            font-family: 'Great Vibes', cursive;
+            line-height: 1.3;
+            color: #fff;
+            text-shadow: 0 0 10px #FF4500, 0 0 20px #FF0000;
+            animation: glowPulse 2s infinite alternate;
+            display: block;
+        }
+
+        /* Điều chỉnh bậc thang bằng padding-left */
+        .text-right .l1 { padding-left: 180px; font-size: 2.8rem; padding-bottom: 40px;} /* Xa */
+        .text-right .l2 { padding-left: 90px; font-size: 3.2rem; padding-bottom: 20px; } /* Gần */
+        .text-right .l3 { padding-left: 0px; font-size: 3.2rem; padding-top: 20px;} /* Sát */
+
+
+        /* --- MUSIC PANEL --- */
+        .music-panel { position: fixed; bottom: 20px; right: 20px; width: 250px; background: rgba(40, 0, 0, 0.95); border: 2px solid var(--gold); border-radius: 12px; padding: 15px; z-index: 999; box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; gap: 6px; transition: all 0.3s; }
+        .music-panel.minimized { width: 40px; height: 40px; border-radius: 50%; padding: 0; justify-content: center; align-items: center; cursor: pointer; overflow: hidden; }
+        .music-panel.minimized * { display: none; }
+        .music-panel.minimized::after { content: '🎵'; font-size: 20px; display: block; }
+        .song-title { color: var(--gold); text-align: center; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold; }
+        .track-info { color: #aaa; text-align: center; font-size: 11px; margin-top: -4px; }
+        .time-display { color: var(--gold); text-align: center; font-size: 12px; font-family: monospace; background: rgba(0,0,0,0.3); border-radius: 4px; padding: 2px 0; }
+        .controls { display: flex; justify-content: center; gap: 10px; margin-top: 5px; }
+        .btn-ctrl { background: none; border: 1px solid var(--gold); color: var(--gold); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-ctrl:hover { background: var(--gold); color: #2b0000; }
+        .vol-container { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--gold); margin-top: 5px; }
+        .vol-slider { -webkit-appearance: none; width: 100%; height: 4px; background: #600; border-radius: 2px; }
+        .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; cursor: pointer; }
+        .toggle-btn { position: absolute; top: 2px; right: 8px; color: #888; cursor: pointer; font-size: 12px; }
+
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes glowPulse { from { text-shadow: 0 0 5px #FFD700, 0 0 10px #FF8C00; } to { text-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00, 0 0 30px #FF4500; } }
+        @keyframes goldFlow { to { background-position: 200% center; } }
+        @keyframes swingLantern { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--gold); cursor: pointer; }
+        #snow-zone {z-index: 1;}
+    </style>
+</head>
+
+<body>
+
+    <div id="overlay" onclick="startApp()">
+        <h1>🧧 HỘI XUÂN 2026 🧧</h1>
+        <p>Gia Đình Ông Bà Vinh</p>
+        <p style="margin-top:20px;">(Chạm để bắt đầu)</p>
+    </div>
+
+    <div class="bg-pattern"></div>
+    <div class="light-fx"></div>
+    <img class="bg-horse" src="./Family/conngua.png" alt="Ngựa Vàng Nền">
+    <div id="snow-zone"></div> 
+    
+    <div class="corner-decor c-tl"></div> <div class="corner-decor c-tr"></div>
+    <div class="corner-decor c-bl"></div> <div class="corner-decor c-br"></div>
+    <div class="branch-decor branch-left"><div class="blossom"></div></div>
+    <div class="branch-decor branch-right"><div class="blossom"></div></div>
+    <div class="lantern l-left"><div class="lantern-body">Tết</div><div class="lantern-tassel"></div></div>
+    <div class="lantern l-right"><div class="lantern-body">Xuân</div><div class="lantern-tassel"></div></div>
+
+    <div class="slider-wrapper top-run">
+        <div class="track">
+            <div class="jade-frame"><img src="./Family/GDNhaBaNgoai.jpg" alt=""><div class="name-label">GĐ Ông Bà</div></div>
+            <div class="jade-frame"><img src="./Family/GdinhBac Quang.JPG" alt=""><div class="name-label">GĐ Bác Quang</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbachoa.jpg" alt=""><div class="name-label">GĐ Bác Hòa</div></div>
+            <div class="jade-frame"><img src="./Family/Hang.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacHop.jpg" alt=""><div class="name-label">GĐ Bác Hợp</div></div>
+            <div class="jade-frame"><img src="./Family/ChiHai.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacTho.jpg" alt=""><div class="name-label">GĐ Bác Thọ</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbacthong.JPG" alt=""><div class="name-label">GĐ Bác Thông</div></div>
+            <div class="jade-frame"><img src="./Family/gddinga.jpg" alt=""><div class="name-label">GĐ Dì Nga</div></div>
+            <div class="jade-frame"><img src="./Family/GdcauThang.JPG" alt=""><div class="name-label">GĐ Cậu Thắng</div></div>
+            <div class="jade-frame"><img src="./Family/GdCauUt.jpg" alt=""><div class="name-label">GĐ Cậu Thành Út</div></div>
+            <div class="jade-frame"><img src="./Family/GDNhaBaNgoai.jpg" alt=""><div class="name-label">GĐ Ông Bà</div></div>
+            <div class="jade-frame"><img src="./Family/GdinhBac Quang.JPG" alt=""><div class="name-label">GĐ Bác Quang</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbachoa.jpg" alt=""><div class="name-label">GĐ Bác Hòa</div></div>
+            <div class="jade-frame"><img src="./Family/Hang.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacHop.jpg" alt=""><div class="name-label">GĐ Bác Hợp</div></div>
+            <div class="jade-frame"><img src="./Family/ChiHai.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacTho.jpg" alt=""><div class="name-label">GĐ Bác Thọ</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbacthong.JPG" alt=""><div class="name-label">GĐ Bác Thông</div></div>
+            <div class="jade-frame"><img src="./Family/gddinga.jpg" alt=""><div class="name-label">GĐ Dì Nga</div></div>
+            <div class="jade-frame"><img src="./Family/GdcauThang.JPG" alt=""><div class="name-label">GĐ Cậu Thắng</div></div>
+            <div class="jade-frame"><img src="./Family/GdCauUt.jpg" alt=""><div class="name-label">GĐ Cậu Thành Út</div></div>
+        </div>
+    </div>
+
+    <div class="center-stage">
+        <div class="text-box text-left main-title">
+            <span class="l1">HỘI</span>
+            <span class="l2">XUÂN</span>
+            <span class="l3">2026</span>
+        </div>
+        
+        <div class="grand-frame">
+            <div class="grand-inner"><img src="./Family/OngBa.jpg" alt="Ông Bà"></div>
+        </div>
+        
+        <div class="text-box text-right main-title">
+            <span class="l1">Gia Đình</span>
+            <span class="l2">Con Cháu</span>
+            <span class="l3">Ông Bà Vinh</span>
+        </div>
+    </div>
+
+    <div class="slider-wrapper bot-run">
+        <div class="track">
+            <div class="jade-frame"><img src="./Family/GDNhaBaNgoai.jpg" alt=""><div class="name-label">GĐ Ông Bà</div></div>
+            <div class="jade-frame"><img src="./Family/GdinhBac Quang.JPG" alt=""><div class="name-label">GĐ Bác Quang</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbachoa.jpg" alt=""><div class="name-label">GĐ Bác Hòa</div></div>
+            <div class="jade-frame"><img src="./Family/Hang.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacHop.jpg" alt=""><div class="name-label">GĐ Bác Hợp</div></div>
+            <div class="jade-frame"><img src="./Family/ChiHai.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacTho.jpg" alt=""><div class="name-label">GĐ Bác Thọ</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbacthong.JPG" alt=""><div class="name-label">GĐ Bác Thông</div></div>
+            <div class="jade-frame"><img src="./Family/gddinga.jpg" alt=""><div class="name-label">GĐ Dì Nga</div></div>
+            <div class="jade-frame"><img src="./Family/GdcauThang.JPG" alt=""><div class="name-label">GĐ Cậu Thắng</div></div>
+            <div class="jade-frame"><img src="./Family/GdCauUt.jpg" alt=""><div class="name-label">GĐ Cậu Thành Út</div></div>
+            <div class="jade-frame"><img src="./Family/GDNhaBaNgoai.jpg" alt=""><div class="name-label">GĐ Ông Bà</div></div>
+            <div class="jade-frame"><img src="./Family/GdinhBac Quang.JPG" alt=""><div class="name-label">GĐ Bác Quang</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbachoa.jpg" alt=""><div class="name-label">GĐ Bác Hòa</div></div>
+            <div class="jade-frame"><img src="./Family/Hang.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacHop.jpg" alt=""><div class="name-label">GĐ Bác Hợp</div></div>
+            <div class="jade-frame"><img src="./Family/ChiHai.jpg" alt=""></div>
+            <div class="jade-frame"><img src="./Family/GDBacTho.jpg" alt=""><div class="name-label">GĐ Bác Thọ</div></div>
+            <div class="jade-frame"><img src="./Family/Gdbacthong.JPG" alt=""><div class="name-label">GĐ Bác Thông</div></div>
+            <div class="jade-frame"><img src="./Family/gddinga.jpg" alt=""><div class="name-label">GĐ Dì Nga</div></div>
+            <div class="jade-frame"><img src="./Family/GdcauThang.JPG" alt=""><div class="name-label">GĐ Cậu Thắng</div></div>
+            <div class="jade-frame"><img src="./Family/GdCauUt.jpg" alt=""><div class="name-label">GĐ Cậu Thành Út</div></div>
+        </div>
+    </div>
+
+    <div class="music-panel" id="musicPanel" onclick="expandPanel()">
+        <div class="toggle-btn" onclick="minimizePanel(event)">_</div>
+        <div class="song-title" id="songName">Đang tải...</div>
+        <div class="track-info" id="trackCounter">-- / --</div>
+        <div class="controls">
+            <button class="btn-ctrl" onclick="prevS(event)">⏮</button>
+            <button class="btn-ctrl" onclick="togglePlay(event)" id="playIcon">▶</button>
+            <button class="btn-ctrl" onclick="nextS(event)">⏭</button>
+        </div>
+        <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
+        <div class="vol-container">
+            <span>🔊</span>
+            <input type="range" class="vol-slider" min="0" max="1" step="0.05" value="0.5" oninput="setVol(this.value)" onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+    <script>
+        const playlist = [
+            { title: "Một Năm Mới Bình An", src: "./Nhac/Một Năm Mới Bình An.mp3" },
+            { title: "Ngày Xuân Long Phụng Sum Vầy", src: "./Nhac/Ngày Xuân Long Phụng Sum Vầy.mp3" },
+            { title: "Tết Đong Đầy 3", src: "./Nhac/Tết Đong Đầy 3.mp3" },
+            { title: "Tết Đong Đầy", src: "./Nhac/Tết Đong Đầy.mp3" },
+            { title: "Tết Này Con Sẽ Về", src: "./Nhac/Tết Này Con Sẽ Về.mp3" },
+            { title: "Tết Này Để Con Lo", src: "./Nhac/Tết Này Để Con Lo.mp3" },
+            { title: "Tết Nhà Là Vô Giá", src: "./Nhac/Tết Nhà Là Vô Giá.mp3" },
+            { title: "Tết Ơi Tết À", src: "./Nhac/Tết Ơi Tết À.mp3" },
+            { title: "Tết Ổn Rồi", src: "./Nhac/Tết Ổn Rồi.mp3" },
+            { title: "Tết Vỗ Về", src: "./Nhac/Tết Vỗ Về.mp3" },
+            { title: "Thế Là Tết", src: "./Nhac/Thế Là Tết.mp3" },
+            { title: "Vạn Sự Như Ý", src: "./Nhac/Vạn Sự Như Ý.mp3" },
+            { title: "Về Nhà Là Có Tết 2", src: "./Nhac/Về Nhà Là Có Tết 2.mp3" },
+            { title: "Xuân Tới Nơi", src: "./Nhac/Xuân Tới Nơi.mp3" },
+            { title: "Con Bướm Xuân", src: "./Nhac/Con Bướm Xuân.mp3" },
+        ];
+        let audio = new Audio(); let idx = 0;
+
+        function startApp() { document.getElementById('overlay').style.display = 'none'; loadS(0); togglePlay(); createFallingEffect(); }
+        
+        function loadS(index) { 
+            idx = (index + playlist.length) % playlist.length; 
+            audio.src = playlist[idx].src; 
+            document.getElementById('songName').innerText = playlist[idx].title; 
+            document.getElementById('trackCounter').innerText = `${idx + 1} / ${playlist.length}`;
+            audio.volume = document.querySelector('.vol-slider').value; 
+            audio.onended = () => nextS(); 
+        }
+
+        audio.ontimeupdate = () => {
+            if (!isNaN(audio.duration)) {
+                document.getElementById('timeDisplay').innerText = 
+                    formatTime(audio.currentTime) + " / " + formatTime(audio.duration);
+            }
+        };
+
+        function formatTime(s) {
+            let m = Math.floor(s / 60);
+            let sec = Math.floor(s % 60);
+            return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function togglePlay(e) { if (e) e.stopPropagation(); if(audio.paused) { audio.play().then(() => { document.getElementById('playIcon').innerText = "⏸"; }); } else { audio.pause(); document.getElementById('playIcon').innerText = "▶"; } }
+        function nextS(e) { if (e) e.stopPropagation(); loadS(idx + 1); audio.play(); document.getElementById('playIcon').innerText = "⏸"; }
+        function prevS(e) { if (e) e.stopPropagation(); loadS(idx - 1); audio.play(); document.getElementById('playIcon').innerText = "⏸"; }
+        function setVol(v) { audio.volume = v; }
+        
+        function minimizePanel(e) { e.stopPropagation(); document.getElementById('musicPanel').classList.add('minimized'); }
+        function expandPanel() { const p = document.getElementById('musicPanel'); if (p.classList.contains('minimized')) p.classList.remove('minimized'); }
+
+        function createFallingEffect() {
+            const container = document.getElementById('snow-zone');
+            const symbols = ['❄', '✿', '✨', '•'];
+            setInterval(() => {
+                const el = document.createElement('div');
+                el.classList.add('falling-item');
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = Math.random() * 5 + 5 + 's';
+                el.style.fontSize = Math.random() * 20 + 10 + 'px';
+                container.appendChild(el);
+                setTimeout(() => el.remove(), 10000); 
+            }, 300);
+        }
+    </script>
+</body>
+</html>
